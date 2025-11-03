@@ -32,3 +32,40 @@ policy = Gr00tPolicy(
 
 # print out the policy model architecture
 print(policy.model)
+
+import numpy as np
+
+modality_config = policy.modality_config
+
+print(modality_config.keys())
+
+for key, value in modality_config.items():
+    if isinstance(value, np.ndarray):
+        print(key, value.shape)
+    else:
+        print(key, value)
+
+# Create the dataset
+dataset = LeRobotSingleDataset(
+    dataset_path=DATASET_PATH,
+    modality_configs=modality_config,
+    video_backend="decord",
+    video_backend_kwargs=None,
+    transforms=None,  # We'll handle transforms separately through the policy
+    embodiment_tag=EMBODIMENT_TAG,
+)
+print(f"Dataset length: {len(dataset)}")
+
+import numpy as np
+
+step_data = dataset[0]
+
+print(step_data)
+
+print("\n\n ====================================")
+for key, value in step_data.items():
+    if isinstance(value, np.ndarray):
+        print(key, value.shape)
+    else:
+        print(key, value)
+
