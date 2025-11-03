@@ -84,8 +84,62 @@ for i in range(100):
         print(frame.shape, frame.dtype, frame.min(), frame.max())
 
         #frame = np.clip(frame, 0.0, 1.0)
-        save_path = os.path.join(SAVE_DIR, f"ego_view_{i:04d}.png")
-        plt.imsave(save_path, frame)
+        #save_path = os.path.join(SAVE_DIR, f"ego_view_{i:04d}.png")
+        #plt.imsave(save_path, frame)
 
-print(f"Saved {len(range(0, 100, 10))} frames to {SAVE_DIR}")
+#print(f"Saved {len(range(0, 100, 10))} frames to {SAVE_DIR}")
+
+from gr00t.data.transform.base import ComposedModalityTransform
+from gr00t.data.transform import VideoToTensor, VideoCrop, VideoResize, VideoColorJitter, VideoToNumpy
+from gr00t.data.transform.state_action import StateActionToTensor, StateActionTransform
+from gr00t.data.transform.concat import ConcatTransform
+
+
+video_modality = modality_configs["video"]
+state_modality = modality_configs["state"]
+action_modality = modality_configs["action"]
+
+# select the transforms you want to apply to the data
+to_apply_transforms = ComposedModalityTransform(
+    transforms=[
+        # video transforms
+        VideoToTensor(apply_to=video_modality.modality_keys),
+        VideoCrop(apply_to=video_modality.modality_keys, scale=0.95),
+        VideoResize(apply_to=video_modality.modality_keys, height=224, width=224, interpolation="linear"),
+        VideoColorJitter(apply_to=video_modality.modality_keys, brightness=0.3, contrast=0.4, saturation=0.5, hue=0.08),
+        VideoToNumpy(apply_to=video_modality.modality_keys),
+
+        # state transforms
+        StateActionToTensor(apply_to=state_modality.modality_keys),
+        StateActionTransform(apply_to=state_modality.modality_keys, normalization_modes={
+            key: "min_max" for key in state_modality.modality_keys
+        }),
+
+        # action transforms
+        StateActionToTensor(apply_to=action_modality.modality_keys),
+        StateActionTransform(apply_to=action_modality.modality_keys, normalization_modes={
+            key: "min_max" for key in action_modality.modality_keys
+        }),
+
+        # ConcatTransform
+        ConcatTransform(
+            video_concat_order=video_modality.modality_keys,
+            state_concat_order=state_modality.modality_keys,
+            action_concat_order=action_modality.modality_keys,
+        ),
+    ]
+)
+
+
+dataset = LeRobotSingleDataset(
+    DATA_PATH,
+    modality_configs,
+    transforms=to_apply_transforms,
+    embodiment_tag=embodiment_tag
+)
+
+# print the 7th data point
+resp = dataset[7]
+any_describe(resp)
+print(resp.keys())
 
