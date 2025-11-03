@@ -64,3 +64,26 @@ print('dataset', dataset)
 resp = dataset[7]
 any_describe(resp)
 print(resp.keys())
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+SAVE_DIR = os.path.join(REPO_PATH, "getting_started", "sample_frames")
+os.makedirs(SAVE_DIR, exist_ok=True)
+
+for i in range(100):
+    if i % 10 == 0:
+        resp = dataset[i]
+        frame = resp["video.ego_view"][0]
+        if hasattr(frame, "detach"):
+            frame = frame.detach().cpu()
+        if hasattr(frame, "numpy"):
+            frame = frame.numpy()
+
+        frame = np.clip(frame, 0.0, 1.0)
+        save_path = os.path.join(SAVE_DIR, f"ego_view_{i:04d}.png")
+        plt.imsave(save_path, frame)
+
+print(f"Saved {len(range(0, 100, 10))} frames to {SAVE_DIR}")
+
