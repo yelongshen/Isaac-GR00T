@@ -13,7 +13,7 @@ REPO_PATH = os.path.dirname(os.path.dirname(gr00t.__file__))
 DATASET_PATH = os.path.join(REPO_PATH, "demo_data/robot_sim.PickNPlace")
 EMBODIMENT_TAG = "gr1"
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
+device = "cpu" # "cuda" if torch.cuda.is_available() else "cpu"
 
 from gr00t.experiment.data_config import DATA_CONFIG_MAP
 
