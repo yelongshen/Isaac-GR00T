@@ -81,7 +81,9 @@ for i in range(100):
         if hasattr(frame, "numpy"):
             frame = frame.numpy()
 
-        frame = np.clip(frame, 0.0, 1.0)
+        print(frame.shape, frame.dtype, frame.min(), frame.max())
+
+        #frame = np.clip(frame, 0.0, 1.0)
         save_path = os.path.join(SAVE_DIR, f"ego_view_{i:04d}.png")
         plt.imsave(save_path, frame)
 
