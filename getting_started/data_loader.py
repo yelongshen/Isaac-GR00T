@@ -48,6 +48,8 @@ modality_configs = {
 # 3. gr00t embodiment tag
 embodiment_tag = EmbodimentTag.GR1
 
+print('tag', embodiment_tag)
+
 # load the dataset
 dataset = LeRobotSingleDataset(DATA_PATH, modality_configs,  embodiment_tag=embodiment_tag)
 
@@ -55,6 +57,8 @@ print('\n'*2)
 print("="*100)
 print(f"{' Humanoid Dataset ':=^100}")
 print("="*100)
+
+print('dataset', dataset)
 
 # print the 7th data point
 resp = dataset[7]
