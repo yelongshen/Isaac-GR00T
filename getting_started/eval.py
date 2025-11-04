@@ -7,7 +7,7 @@ from gr00t.data.dataset import LeRobotSingleDataset
 import numpy as np
 import torch
 
-device = "cpu" #"cuda" if torch.cuda.is_available() else "cpu"
+device = "cuda" if torch.cuda.is_available() else "cpu"
 
 warnings.simplefilter("ignore", category=FutureWarning)
 
