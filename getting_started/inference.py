@@ -135,16 +135,6 @@ if num_images > 0:
     plt.close(fig)
     print(f"Saved image grid to {grid_path}")
 
-    for idx, image in enumerate(images):
-        frame = image
-        if hasattr(frame, "detach"):
-            frame = frame.detach().cpu()
-        if hasattr(frame, "numpy"):
-            frame = frame.numpy()
-        frame = np.clip(frame, 0.0, 1.0)
-        frame_path = output_dir / f"ego_view_frame_{idx:02d}.png"
-        plt.imsave(frame_path, frame)
-        print(f"Saved frame {idx} to {frame_path}")
 else:
     print("No images collected to save.")
 
