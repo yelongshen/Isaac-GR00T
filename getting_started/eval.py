@@ -14,7 +14,7 @@ warnings.simplefilter("ignore", category=FutureWarning)
 
 PRE_TRAINED_MODEL_PATH = "nvidia/GR00T-N1.5-3B"
 EMBODIMENT_TAG = EmbodimentTag.GR1
-DATASET_PATH = "../demo_data/robot_sim.PickNPlace"
+DATASET_PATH = "demo_data/robot_sim.PickNPlace"
 
 
 data_config = DATA_CONFIG_MAP["fourier_gr1_arms_only"]
