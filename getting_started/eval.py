@@ -37,7 +37,6 @@ dataset = LeRobotSingleDataset(
     video_backend_kwargs=None,
     transforms=None,  # We'll handle transforms separately through the policy
     embodiment_tag=EMBODIMENT_TAG,
-    save_plot_path="getting_started/eval_outputs",
 )
 
 
@@ -48,7 +47,8 @@ mse = calc_mse_for_single_trajectory(
     modality_keys=["right_arm", "right_hand"],   # we will only evaluate the right arm and right hand
     steps=150,
     action_horizon=16,
-    plot=True
+    plot=True,
+    save_plot_path="getting_started/eval_outputs",
 )
 
 print("MSE loss for trajectory 0:", mse)
