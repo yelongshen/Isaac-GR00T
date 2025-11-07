@@ -39,16 +39,25 @@ dataset = LeRobotSingleDataset(
     embodiment_tag=EMBODIMENT_TAG,
 )
 
+## dataset loader. 
 
-mse = calc_mse_for_single_trajectory(
-    pre_trained_policy,
-    dataset,
-    traj_id=0,
-    modality_keys=["right_arm", "right_hand"],   # we will only evaluate the right arm and right hand
-    steps=150,
-    action_horizon=16,
-    plot=True,
-    save_plot_path="getting_started/eval_outputs",
-)
+from gr00t.utils.misc import any_describe
 
-print("MSE loss for trajectory 0:", mse)
+# print the 7th data point
+resp = dataset[0]
+any_describe(resp)
+print(resp.keys())
+
+
+#mse = calc_mse_for_single_trajectory(
+#    pre_trained_policy,
+#    dataset,
+#    traj_id=0,
+#    modality_keys=["right_arm", "right_hand"],   # we will only evaluate the right arm and right hand
+#    steps=150,
+#    action_horizon=16,
+#    plot=True,
+#    save_plot_path="getting_started/eval_outputs",
+#)
+
+#print("MSE loss for trajectory 0:", mse)
